@@ -22,7 +22,7 @@ int main()
  
  vector<string> client_codes;
  vector<string> product_names;
- vector<vector<int>> compras_cliente;
+ vector<vector<int> > compras_cliente;
 
  map<string, int> index_client;
  map<string, int> index_product;
@@ -52,6 +52,76 @@ int main()
  }
 
  fclose(csv);
+ 
+ // Teste Matriz
+ 
+    // Criar a Matriz, onde as linhas são os clientes
+    // e as colunas os produtos.
+    // 0 para compra negativa e 1 para compra positiva
+    
+    //Criar a transposta(colunas viram linhas e linhas colunas)
+    
+    //Produto das matrizes( linha x coluna = termo )
+
+ // "Alocação" das Matrizes
+ 
+ int Matriz_compras[index_client.size()][index_product.size()];
+ int Matriz_compras_transposta[index_product.size()][index_client.size()];
+ int Matriz_intersecao[index_client.size()][index_client.size()];
+ 
+ // Preencher as matrizes 
+ 
+    // Preencher Matriz de Compras 
+    
+ int i,j,k;
+ 
+ for(i = 0; i < index_client.size(); i++)
+ {
+       
+       for( j = 0; j < index_product.size(); j++)
+       {
+            
+            Matriz_compras[i][j] = 0;
+            
+       }
+       
+       for( k = 0; k < compras_cliente[i].size(); k++)
+       {
+           
+            Matriz_compras[i][ compras_cliente[i][k] ] = 1;  
+       
+       }
+ 
+ }
+ 
+    // Preencher matriz_transposta
+       
+ for(i = 0; i < index_client.size(); i++)
+ {
+       
+       for( j = 0; j < index_product.size(); j++)
+       {
+          
+            Matriz_compras_transposta[j][i] = Matriz_compras[i][j];
+       
+       }
+       
+ }
+ 
+    // Produto Matrizes
+ 
+ //for(i = 0; i < index_client.size(); i++)
+ //{
+       
+       //for( j = 0; j < index_product.size(); j++)
+       //{
+          
+            //Matriz_compras_transposta[j][i] = Matriz_compras[i][j];
+       
+       //}
+       
+ //}
+ 
  return 0;
 
 }
