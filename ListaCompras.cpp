@@ -5,7 +5,7 @@
 #include <iostream>
 using namespace std;
 
-int main()
+int ListaCompras()
 {
 
  FILE *csv;
@@ -15,7 +15,7 @@ int main()
   return 1;
  }
 
- int contador =0;
+ int contador = 0;
  char client_buf[30];
  char product_buf[30];
  char data_buf[59];
@@ -44,9 +44,10 @@ int main()
       index_client[client_buf] = next_client++;
   }
       
-      
-
   if(index_product.count(product_buf) == 0){
+      if(next_product == 22){
+         cout << product_buf << endl;
+      }
       index_product[product_buf] = next_product++;
   }
       
@@ -54,23 +55,24 @@ int main()
   int client_id = index_client[client_buf];
   int product_id = index_product[product_buf];
 
-  if(client_id >= compras_cliente.size())
+  if(client_id >= compras_cliente.size()){
       compras_cliente.resize(client_id+1);
+  }
+      
 
   compras_cliente[client_id].push_back(product_id);
 
  }
 
- for (auto it = index_client.begin(); it != index_client.end(); ++it) 
-        cout << it->first << " " << it->second << endl;
-   
- auto it = index_client.find("91354601");
+ 
+ auto it = index_product.find("25243");
 
-if(it != index_client.end())
+if(it != index_product.end()){
     cout << it->second << endl;
-else
-    cout << "Cliente não encontrado\n";
-
+}
+else{
+    cout << "Produto nao encontrado" << endl;
+}
 
 
  fclose(csv);
