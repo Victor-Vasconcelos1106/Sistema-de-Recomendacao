@@ -15,6 +15,7 @@ int main()
   return 1;
  }
 
+ int contador =0;
  char client_buf[30];
  char product_buf[30];
  char data_buf[59];
@@ -31,15 +32,24 @@ int main()
  int next_product = 0;
 
  while(fscanf(csv, "%29[^,],%29[^,],%29[^,],%58[^\n]\n", data_buf, client_buf, product_buf, name_buf) == 4){
+  if(contador == 0){
+   contador++;
+   continue;
+  }
   client_codes.push_back(client_buf);
   product_names.push_back(name_buf);
 
 
-  if(index_client.count(client_buf) == 0)
+  if(index_client.count(client_buf) == 0){
       index_client[client_buf] = next_client++;
+  }
+      
+      
 
-  if(index_product.count(product_buf) == 0)
+  if(index_product.count(product_buf) == 0){
       index_product[product_buf] = next_product++;
+  }
+      
 
   int client_id = index_client[client_buf];
   int product_id = index_product[product_buf];
@@ -50,6 +60,18 @@ int main()
   compras_cliente[client_id].push_back(product_id);
 
  }
+
+ for (auto it = index_client.begin(); it != index_client.end(); ++it) 
+        cout << it->first << " " << it->second << endl;
+   
+ auto it = index_client.find("91354601");
+
+if(it != index_client.end())
+    cout << it->second << endl;
+else
+    cout << "Cliente não encontrado\n";
+
+
 
  fclose(csv);
  return 0;
