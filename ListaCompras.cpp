@@ -3,16 +3,16 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include "ListaCompras.h"
 using namespace std;
 
-int ListaCompras()
-{
+Dados ListaCompras(){
 
  FILE *csv;
  csv = fopen("dados_venda_cluster_0.csv","r");
  if(csv == NULL){
   perror("Erro ao abrir o csv");
-  return 1;
+  return {};
  }
 
  int contador = 0;
@@ -45,9 +45,6 @@ int ListaCompras()
   }
       
   if(index_product.count(product_buf) == 0){
-      if(next_product == 22){
-         cout << product_buf << endl;
-      }
       index_product[product_buf] = next_product++;
   }
       
@@ -64,18 +61,7 @@ int ListaCompras()
 
  }
 
- 
- auto it = index_product.find("25243");
-
-if(it != index_product.end()){
-    cout << it->second << endl;
-}
-else{
-    cout << "Produto nao encontrado" << endl;
-}
-
-
  fclose(csv);
- return 0;
+ return {compras_cliente, client_codes, product_names, index_client, index_product};
 
 }
