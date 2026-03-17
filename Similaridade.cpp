@@ -8,8 +8,8 @@ int main(){
  int *Matriz_compras = (int*)malloc( sizeof(int) * ( dados.index_client.size() ) * ( dados.index_product.size() ) );
  int *Matriz_compras_transposta = (int*)malloc( sizeof(int) * ( dados.index_product.size() ) * ( dados.index_client.size() ) );
  int *Matriz_intersecao = (int*)malloc( sizeof(int) * ( dados.index_client.size() ) * ( dados.index_client.size() ) );
- int *total_produtos = (int*)malloc(sizeof(int) * dados.index_client.size());
- float *Matriz_jaccard = (float*)malloc(sizeof(float) * dados.index_client.size() * dados.index_client.size());
+ float *Matriz_similaridade = (float*)malloc(sizeof(float) * dados.index_client.size() * dados.index_client.size());
+ 
  int i,j,k;
  
  for(i = 0; i < dados.index_client.size(); i++)
@@ -88,7 +88,8 @@ int soma_do_produto = 0;
        
        		}
        		
-       		*(Matriz_intersecao + (i * dados.index_client.size() + k)) = soma_do_produto;;
+       		*(Matriz_intersecao + (i * dados.index_client.size() + k)) = soma_do_produto;
+            *( Matriz_similaridade + (i*k) ) = soma_do_produto;
        		soma_do_produto = 0;
        
    	   }
@@ -104,60 +105,48 @@ int soma_do_produto = 0;
  	for(j = 0 ; j < dados.index_client.size(); j++ )
  	{
  		
-        printf("%i", *(Matriz_intersecao + (i * dados.index_client.size() + j)));;
+        printf("%i", *(Matriz_intersecao + (i * dados.index_client.size() + j)));
+
  		
 	}
 	
 	printf("\n");
  }
 
-for(i = 0; i < dados.index_client.size(); i++)
-{
-    total_produtos[i] = 0;
-
-    for(j = 0; j < dados.index_product.size(); j++)
-    {
-        total_produtos[i] += *(Matriz_compras + (i * dados.index_product.size() + j));
-    }
-}
 
 for(i = 0; i < dados.index_client.size(); i++)
-{
-    for(k = 0; k < dados.index_client.size(); k++)
-    {
-        int intersecao = *(Matriz_intersecao + (i * dados.index_client.size() + k));
-        
-        int uniao = total_produtos[i] + total_produtos[k] - intersecao;
-
-        if(uniao != 0)
-        {
-            *(Matriz_jaccard + (i * dados.index_client.size() + k)) =
-                (float) intersecao / uniao;
-        }
-        else
-        {
-            *(Matriz_jaccard + (i * dados.index_client.size() + k)) = 0;
-        }
-    }
-}
-
-printf("\n\nMatriz de Jaccard:\n\n");
-
-for(i = 0; i < dados.index_client.size(); i++)
-{
-    for(k = 0; k < dados.index_client.size(); k++)
-    {
-        printf("%.2f ", *(Matriz_jaccard + (i * dados.index_client.size() + k)));
-    }
-    printf("\n");
-}
+ {
+ 	
+       for (j = 0 ; j < dados.index_client.size();j++)
+	   {
+	   
+	   		*( Matriz_similaridade + (i*j) ) = (*( Matriz_similaridade + (i*j) )) / ( dados.compras_cliente[i].size() );
+	   
+	   }
+	   
+ }
+ 
+ 
+ printf("\n\nTeste Matriz similaridade\n\n");
+ 
+ for(i = 0; i < dados.index_client.size(); i++)
+ {
+ 	
+       for (j = 0 ; j < dados.index_client.size();j++)
+	   {
+	   
+	   		printf("%.1f", ( *( Matriz_similaridade + (i*j) ) ) );
+	   
+	   }
+ 		
+ 		printf("\n");
+ }
+ 
 
 free(Matriz_compras);
 free(Matriz_compras_transposta);
 free(Matriz_intersecao);
-free(Matriz_jaccard);
-free(total_produtos);
-
+free(Matriz_similaridade);
 
     return 0;
 }
