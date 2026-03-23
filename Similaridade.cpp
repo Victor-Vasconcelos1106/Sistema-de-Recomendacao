@@ -2,8 +2,10 @@
 #include "ListaCompras.h"
 #include <stdlib.h>
 
+//ENTENDER PORQUE ESSA BOMBA NÃO FUNCIONA
+
 int main(){
-    Dados dados = ListaCompras();
+    Dados dados_compra;
  
  int *Matriz_compras = (int*)malloc( sizeof(int) * ( dados.index_client.size() ) * ( dados.index_product.size() ) );
  int *Matriz_compras_transposta = (int*)malloc( sizeof(int) * ( dados.index_product.size() ) * ( dados.index_client.size() ) );

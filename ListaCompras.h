@@ -15,6 +15,6 @@ struct Dados {
            
 };
 
-void ListaCompras();
+Dados* ListaCompras(Dados *ptr);
 
 #endif

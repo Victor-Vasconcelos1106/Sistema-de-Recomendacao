@@ -6,7 +6,7 @@
 #include "ListaCompras.h"
 using namespace std;
 
-void ListaCompras(){
+Dados* ListaCompras(Dados *ptr){
 
  FILE *csv;
  csv = fopen("dados_venda_cluster_0.csv","r");
@@ -38,24 +38,24 @@ void ListaCompras(){
   
   if(index_client.count(client_buf) == 0){
       index_client[client_buf] = next_client++;
-      client_codes.push_back(client_buf);
+      ptr->client_codes.push_back(client_buf);
   }
       
   if(index_product.count(product_buf) == 0){
       index_product[product_buf] = next_product++;
-      product_names.push_back(name_buf);
+      ptr->product_names.push_back(name_buf);
   }
       
 
-  int client_id = index_client[client_buf];
-  int product_id = index_product[product_buf];
+  int client_id = ptr->index_client[client_buf];
+  int product_id = ptr->index_product[product_buf];
 
-  if(client_id >= compras_cliente.size()){
-      compras_cliente.resize(client_id+1);
+  if(client_id >= ptr->compras_cliente.size()){
+      ptr->compras_cliente.resize(client_id+1);
   }
       
 
-  compras_cliente[client_id].push_back(product_id);
+  ptr->compras_cliente[client_id].push_back(product_id);
 
  }
 
@@ -64,5 +64,7 @@ void ListaCompras(){
 
 
  fclose(csv);
+
+ return ptr;
 
 }
