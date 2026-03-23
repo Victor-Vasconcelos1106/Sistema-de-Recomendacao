@@ -120,7 +120,7 @@ for(i = 0; i < dados.index_client.size(); i++)
        for (j = 0 ; j < dados.index_client.size();j++)
 	   {
 	   
-	   		*( Matriz_similaridade + (i*j) ) = (*( Matriz_similaridade + (i*j) )) / ( dados.compras_cliente[i].size() );
+	   		*( Matriz_similaridade + (i*j) ) = 1 - (*( Matriz_similaridade + (i*j) )) / ( dados.compras_cliente[i].size() );
 	   
 	   }
 	   
@@ -148,5 +148,5 @@ free(Matriz_compras_transposta);
 free(Matriz_intersecao);
 free(Matriz_similaridade);
 
-    return 0;
+return 0;
 }

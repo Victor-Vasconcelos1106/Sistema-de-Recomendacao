@@ -6,13 +6,12 @@
 #include "ListaCompras.h"
 using namespace std;
 
-Dados ListaCompras(){
+void ListaCompras(){
 
  FILE *csv;
  csv = fopen("dados_venda_cluster_0.csv","r");
  if(csv == NULL){
   perror("Erro ao abrir o csv");
-  return {};
  }
 
  int contador = 0;
@@ -36,16 +35,15 @@ Dados ListaCompras(){
    contador++;
    continue;
   }
-  client_codes.push_back(client_buf);
-  product_names.push_back(name_buf);
-
-
+  
   if(index_client.count(client_buf) == 0){
       index_client[client_buf] = next_client++;
+      client_codes.push_back(client_buf);
   }
       
   if(index_product.count(product_buf) == 0){
       index_product[product_buf] = next_product++;
+      product_names.push_back(name_buf);
   }
       
 
@@ -61,7 +59,10 @@ Dados ListaCompras(){
 
  }
 
+
+
+
+
  fclose(csv);
- return {compras_cliente, client_codes, product_names, index_client, index_product};
 
 }

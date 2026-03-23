@@ -15,6 +15,6 @@ struct Dados {
            
 };
 
-Dados ListaCompras();
+void ListaCompras();
 
 #endif
