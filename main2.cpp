@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void ClienteMaisSimilar(int indice, int total_clientes, float* matriz, const vector<string> codigos) {
+void ClienteMaisSimilar(int indice, int total_clientes, float* matriz, const vector<string>& codigos) {
     float menor_distancia; 
     int idx;
 
@@ -45,6 +45,7 @@ int main() {
     int numero_clientes = dados.index_client.size();
 
     Matriz_s matriz;
+    Similaridade(&matriz);
 
     int cliente1, cliente2;
     cout << "Total dos indices dos clientes: " << numero_clientes - 1 << endl;
