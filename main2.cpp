@@ -4,8 +4,12 @@
 #include <iomanip>
 #include "ListaCompras.h"
 #include "Similaridade.h"
+#include <ctime>
 
 using namespace std;
+
+clock_t inicio_similaridade_exec;
+clock_t fim_similaridade_exec;
 
 void ClienteMaisSimilar(int indice, int total_clientes, float* matriz, const vector<string>& codigos) {
     float menorDistancia; 
@@ -42,7 +46,19 @@ int main() {
     int numero_clientes = dados.index_client.size();
 
     Matriz_s matriz;
+
+    inicio_similaridade_exec = clock();
     Similaridade(&matriz);
+    fim_similaridade_exec = clock();
+
+    cout << "Tempo gasto computando a similaridade de forma não otimizada : " << (fim_similaridade_exec - inicio_similaridade_exec)/CLOCKS_PER_SEC << endl;
+
+    inicio_similaridade_exec = clock();
+    Similaridade_Otimizada(&matriz);
+    fim_similaridade_exec = clock();
+
+    cout << "Tempo gasto computando a similaridade de forma não otimizada : " << (fim_similaridade_exec - inicio_similaridade_exec)/CLOCKS_PER_SEC << endl;
+
 
     int cliente1, cliente2;
     cout << "Total dos indices dos clientes: " << numero_clientes - 1 << endl;
