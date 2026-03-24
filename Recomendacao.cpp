@@ -5,11 +5,11 @@ bool compararProdutos(const Produto& a, const Produto& b) {
     return a.valor_ranking < b.valor_ranking; 
 }
 
-vector<string> Recomendacao(int cliente_c, Dados* dados, Matriz_s* matriz, int k){
+void Recomendacao(int cliente_c, Dados* dados, Matriz_s* matriz, int k, vector<string> *nomes){
     Dados *ptr_dados = dados;
-    int numero_clientes = dados->index_client.size();
-    int numero_produtos = dados->index_product.size();
-    vector<list<int>> compras = dados->compras_cliente;
+    int numero_clientes = ptr_dados->index_client.size();
+    int numero_produtos = ptr_dados->index_product.size();
+    vector<list<int>> compras = ptr_dados->compras_cliente;
 
     float *ptr_matriz = matriz->matriz;
 
@@ -29,21 +29,35 @@ vector<string> Recomendacao(int cliente_c, Dados* dados, Matriz_s* matriz, int k
     }
 
     for (int p = 0; p < numero_produtos; p++) {
-        R[p].id_produto = p;
-        R[p].valor_ranking = 1.0; 
+        Produto i = {p,1.0};
+        R.push_back({i});
     }
 
     for (int s : L) {
+
         float similaridade_cs = matriz->matriz[cliente_c * numero_clientes + s];
-        for (int p : dados->compras_cliente[s]) {
+
+        for (int produto : ptr_dados->compras_cliente[s]) {
+
+            auto it = find(ptr_dados->compras_cliente[cliente_c].begin() , ptr_dados->compras_cliente[cliente_c].end(), produto );
+
+            if(it == ptr_dados->compras_cliente[cliente_c].end())
+            {
+
+                R[produto].valor_ranking *= similaridade_cs;
+
+            }
 
         }
     }
 
-
-
-
-
     sort(R.begin(), R.end(), compararProdutos);
 
+    vector<string> *ids = nomes;
+
+    for(int i = 0; i < k; i++){
+        (*(ids)).push_back(ptr_dados->product_names[R[i].id_produto]);
+    }
+
+    
 }

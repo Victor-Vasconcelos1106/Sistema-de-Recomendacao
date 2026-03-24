@@ -4,7 +4,6 @@
 #include <iomanip>
 #include "ListaCompras.h"
 #include "Similaridade.h"
-#include <ctime>
 
 using namespace std;
 

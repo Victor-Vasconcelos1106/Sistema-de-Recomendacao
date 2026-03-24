@@ -12,7 +12,7 @@ struct Produto{
     float valor_ranking;
 };
 
-vector<string> Recomendacao(string cliente_c, Dados* dados, Matriz_s* matriz, int k);
+void Recomendacao(int cliente_c, Dados* dados, Matriz_s* matriz, int k, vector<string>* nomes);
 
 
 #endif
