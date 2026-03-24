@@ -6,7 +6,8 @@
 using namespace std;
 
 int main() {
-    Dados dados = ListaCompras();
+    Dados dados;
+    ListaCompras(&dados);
 
     vector<string> clientes;
     string codigo;

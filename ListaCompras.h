@@ -4,10 +4,11 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <list>
 using namespace std;
 
 struct Dados {
-    vector<vector<int>> compras_cliente; 
+    vector<list<int>> compras_cliente; 
     vector<string> client_codes;        
     vector<string> product_names;
     map<string, int> index_client;
@@ -15,6 +16,6 @@ struct Dados {
            
 };
 
-void ListaCompras(Dados &ptr);
+Dados* ListaCompras(Dados *ptr);
 
 #endif

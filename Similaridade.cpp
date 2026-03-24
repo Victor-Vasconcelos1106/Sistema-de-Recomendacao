@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include "ListaCompras.h"
 #include <stdlib.h>
+#include "Similaridade.h"
 
-int main(){
-
+Matriz_s* Similaridade(Matriz_s *ptr){
     Dados dados;
-	ListaCompras(dados);
+	ListaCompras(&dados);
  
  int *Matriz_compras = (int*)malloc( sizeof(int) * ( dados.index_client.size() ) * ( dados.index_product.size() ) );
  int *Matriz_compras_transposta = (int*)malloc( sizeof(int) * ( dados.index_product.size() ) * ( dados.index_client.size() ) );
@@ -17,37 +17,18 @@ int main(){
  for(i = 0; i < dados.index_client.size(); i++)
  {
        
-       for( j = 0; j < dados.index_product.size(); j++)
-       {
-            
-            *(Matriz_compras + (i * dados.index_product.size() + j)) = 0;
-            
+       for( j = 0; j < dados.index_product.size(); j++){
+        *(Matriz_compras + (i * dados.index_product.size() + j)) = 0;  
        }
        
-       for( k = 0; k < dados.compras_cliente[i].size(); k++)
-       {
-           
-            *(Matriz_compras + (i * dados.index_product.size() + dados.compras_cliente[i][k])) = 1;  
-       
-       }
- 
- }
- 	printf("teste matriz de compra\n\n");
- 	
- 	for(i = 0; i < dados.index_client.size(); i++)
- 	{
-       
-       for( j = 0; j < dados.index_product.size(); j++)
-       {
-       	
-       		printf("%i", *(Matriz_compras + (i * dados.index_product.size() + j)));
-       	
+       for(int product_id : dados.compras_cliente[i]){
+		*(Matriz_compras + (i * dados.index_product.size() + product_id)) = 1;
 	   }
-	   
-	   printf("\n");
-	   
-	}
-       
+{
+    
+}
+ 
+ }    
  for(i = 0; i < dados.index_client.size(); i++)
  {
        
@@ -60,22 +41,6 @@ int main(){
        
  }
  
- printf("\n\n\n");
- printf("teste da matriz de compras transposta\n\n");
- 
- for(i = 0; i < dados.index_product.size(); i++)
- {
-       
-       for( j = 0; j < dados.index_client.size(); j++)
-       {
-          
-            printf("%i", *(Matriz_compras_transposta + (i * dados.index_client.size() + j)));;
-       
-       }
-    
- }
- 
-
 int soma_do_produto = 0;
 
  for(i = 0; i < dados.index_client.size(); i++)
@@ -91,30 +56,12 @@ int soma_do_produto = 0;
        		}
        		
        		*(Matriz_intersecao + (i * dados.index_client.size() + k)) = soma_do_produto;
-            *( Matriz_similaridade + (i*k) ) = soma_do_produto;
+            *( Matriz_similaridade + (i * dados.index_client.size() + k) ) = soma_do_produto;
        		soma_do_produto = 0;
        
    	   }
        
  }
- 
- printf("\n\n");
- printf("teste matriz de intersecao\n\n");
- 
- for(i = 0 ; i < dados.index_client.size(); i++ )
- {
- 	
- 	for(j = 0 ; j < dados.index_client.size(); j++ )
- 	{
- 		
-        printf("%i", *(Matriz_intersecao + (i * dados.index_client.size() + j)));
-
- 		
-	}
-	
-	printf("\n");
- }
-
 
 for(i = 0; i < dados.index_client.size(); i++)
  {
@@ -127,28 +74,12 @@ for(i = 0; i < dados.index_client.size(); i++)
 	   }
 	   
  }
- 
- 
- printf("\n\nTeste Matriz similaridade\n\n");
- 
- for(i = 0; i < dados.index_client.size(); i++)
- {
- 	
-       for (j = 0 ; j < dados.index_client.size();j++)
-	   {
-	   
-	   		printf("%.1f", ( *( Matriz_similaridade + (i*j) ) ) );
-	   
-	   }
- 		
- 		printf("\n");
- }
- 
 
+ptr->matriz = Matriz_similaridade;
+ 
 free(Matriz_compras);
 free(Matriz_compras_transposta);
 free(Matriz_intersecao);
-free(Matriz_similaridade);
 
-return 0;
+return ptr;
 }
