@@ -8,8 +8,8 @@
 
 using namespace std;
 
-void ClienteMaisSimilar(int indice, int total_clientes, float* matriz, const vector<string>& codigos) {
-    float menorDistancia; 
+void ClienteMaisSimilar(int indice, int total_clientes, float* matriz, const vector<string> codigos) {
+    float menor_distancia; 
     int idx;
 
     if (indice == 0) {
@@ -18,17 +18,17 @@ void ClienteMaisSimilar(int indice, int total_clientes, float* matriz, const vec
         idx = 0;
     }
 
-    menorDistancia = matriz[indice * total_clientes + idx];
+    menor_distancia = matriz[indice * total_clientes + idx];
 
     for (int j = 0; j < total_clientes; j++) {
         if (indice == j){
             continue;
         } 
 
-        float distAtual = matriz[indice * total_clientes + j];
+        float dist_atual = matriz[indice * total_clientes + j];
         
-        if (distAtual < menorDistancia) {
-            menorDistancia = distAtual;
+        if (dist_atual < menor_distancia) {
+            menor_distancia = dist_atual;
             idx = j;
         }
     }

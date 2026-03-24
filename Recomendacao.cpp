@@ -1,6 +1,10 @@
 #include <iostream>
 #include "Recomendacao.h"
 
+bool compararProdutos(const Produto& a, const Produto& b) {
+    return a.valor_ranking < b.valor_ranking; 
+}
+
 vector<string> Recomendacao(int cliente_c, Dados* dados, Matriz_s* matriz, int k){
     Dados *ptr_dados = dados;
     int numero_clientes = dados->index_client.size();
@@ -10,38 +14,36 @@ vector<string> Recomendacao(int cliente_c, Dados* dados, Matriz_s* matriz, int k
     float *ptr_matriz = matriz->matriz;
 
     vector<int> L;
-    vector<float> R;
+    vector<Produto> R;
 
    for (int i = 0; i < numero_clientes; i++) {
-        if (cliente_c == i){
+        if (i == cliente_c){
             continue;
         } 
 
-        float distAtual = *(ptr_matriz + (cliente_c * numero_clientes + i));
+        float dist_atual = *(ptr_matriz + (cliente_c * numero_clientes + i));
         
-        if (distAtual < 1) {
+        if (dist_atual < 1.0) {
             L.push_back(i);
         }
     }
 
-
-    for(int i = 0; i < numero_produtos; i++){
-        R.push_back(1);
+    for (int p = 0; p < numero_produtos; p++) {
+        R[p].id_produto = p;
+        R[p].valor_ranking = 1.0; 
     }
 
-    for(int i = 0; i < L.size(); i++){
-        
+    for (int s : L) {
+        float similaridade_cs = matriz->matriz[cliente_c * numero_clientes + s];
+        for (int p : dados->compras_cliente[s]) {
+
+        }
     }
 
 
 
 
 
-
-    
-
-
-
-
+    sort(R.begin(), R.end(), compararProdutos);
 
 }

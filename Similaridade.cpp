@@ -89,7 +89,6 @@ Matriz_s* Similaridade_Otimizada(Matriz_s *ptr){
 	ListaCompras(&dados);
  
  int *Matriz_compras = (int*)malloc( sizeof(int) * ( dados.index_client.size() ) * ( dados.index_product.size() ) );
- //int *Matriz_compras_transposta = (int*)malloc( sizeof(int) * ( dados.index_product.size() ) * ( dados.index_client.size() ) );
  int *Matriz_intersecao = (int*)malloc( sizeof(int) * ( dados.index_client.size() ) * ( dados.index_client.size() ) );
  float *Matriz_similaridade = (float*)malloc(sizeof(float) * dados.index_client.size() * dados.index_client.size());
  
@@ -110,18 +109,6 @@ Matriz_s* Similaridade_Otimizada(Matriz_s *ptr){
 }
  
  }    
- /*for(i = 0; i < dados.index_client.size(); i++)
- {
-       
-       for( j = 0; j < dados.index_product.size(); j++)
-       {
-          
-            *(Matriz_compras_transposta + (j * dados.index_client.size() + i)) = *(Matriz_compras + (i * dados.index_product.size() + j));;
-       
-       }
-       
- }
- */
 int soma_do_produto = 0;
 
  for(i = 0; i < dados.index_client.size(); i++)
@@ -159,7 +146,6 @@ for(i = 0; i < dados.index_client.size(); i++)
 ptr->matriz = Matriz_similaridade;
  
 free(Matriz_compras);
-//free(Matriz_compras_transposta);
 free(Matriz_intersecao);
 
 return ptr;
