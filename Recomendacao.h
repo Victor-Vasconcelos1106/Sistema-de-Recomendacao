@@ -8,6 +8,7 @@
 #include "Similaridade.h"
 
 
+vector<string> Recomendacao(string cliente_c, Dados* dados, Matriz_s* matriz, int k);
 
 
 #endif

@@ -6,5 +6,6 @@ struct Matriz_s{
 };
 
 Matriz_s* Similaridade(Matriz_s *ptr);
+Matriz_s* Similaridade_Otimizada(Matriz_s *ptr);
 
 #endif
