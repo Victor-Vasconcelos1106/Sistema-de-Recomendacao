@@ -125,8 +125,8 @@ int soma_do_produto = 0;
 // possivelemente usa j ao invés de k para definir a coluna  preenchida
 // checar durante a execução se as matrizes geradas são iguais
 		   
-       		*(Matriz_intersecao + (i * dados.index_client.size() + k)) = soma_do_produto;
-            *( Matriz_similaridade + (i * dados.index_client.size() + k) ) = soma_do_produto;
+       		*(Matriz_intersecao + (i * dados.index_client.size() + j)) = soma_do_produto;
+            *( Matriz_similaridade + (i * dados.index_client.size() + j) ) = soma_do_produto;
        		soma_do_produto = 0;
        
    	   }

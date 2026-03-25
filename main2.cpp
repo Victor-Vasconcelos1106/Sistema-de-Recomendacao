@@ -33,9 +33,8 @@ void ClienteMaisSimilar(int indice, int total_clientes, float* matriz, const vec
     }
 
     cout << "Cliente digitado: [" << indice << "] " << codigos[indice] << endl;
-    if (idx != -1) {
-        cout << "Mais Similar: [" << idx << "] " << codigos[idx] << endl;
-    }
+    cout << "Mais Similar: [" << idx << "] " << codigos[idx] << endl;
+    
 }
 
 int main() {

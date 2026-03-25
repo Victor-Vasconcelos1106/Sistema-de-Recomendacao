@@ -15,7 +15,7 @@ int main(){
 
     vector<string> clientes;
     string codigo;
-    for (int i = 0; i < 1; i++) {  
+    for (int i = 0; i < 3; i++) {  
         cout << "Código do cliente: ";
         cin >> codigo;
         clientes.push_back(codigo);
@@ -31,17 +31,17 @@ int main(){
 
     }
 
-    for(int idx : clientes_idx)
+    for(int H : clientes_idx)
     {
 
         vector<string> recomendacoes;
 
-        Recomendacao(idx, &dados, &matriz, 3, &recomendacoes);
+        Recomendacao(H, &dados, &matriz, 3, &recomendacoes);
 
         for(string produto : recomendacoes)
         {
 
-            cout << "cliente " << idx << ": "<< produto;
+            cout << "cliente " << H << ": "<< produto << endl;
 
         }
 
