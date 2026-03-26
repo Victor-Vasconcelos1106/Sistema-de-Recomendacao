@@ -7,7 +7,8 @@
 #include "ListaCompras.h"
 #include "Similaridade.h"
 
-struct Produto{
+struct Produto
+{
     int id_produto;
     float valor_ranking;
 };

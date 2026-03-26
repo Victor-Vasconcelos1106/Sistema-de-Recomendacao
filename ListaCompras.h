@@ -8,7 +8,7 @@
 using namespace std;
 
 struct Dados {
-    vector<list<int>> compras_cliente; 
+    vector<list<int> > compras_cliente; 
     vector<string> client_codes;        
     vector<string> product_names;
     map<string, int> index_client;
@@ -16,6 +16,6 @@ struct Dados {
            
 };
 
-Dados* ListaCompras(Dados *ptr);
+void ListaCompras(Dados *ptr);
 
 #endif

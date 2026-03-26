@@ -7,7 +7,7 @@
 #include "ListaCompras.h"
 using namespace std;
 
-Dados* ListaCompras(Dados *ptr){
+void ListaCompras(Dados *ptr){
 
  FILE *csv;
  csv = fopen("dados_venda_cluster_0.csv","r");
@@ -25,9 +25,12 @@ Dados* ListaCompras(Dados *ptr){
  int next_product = 0;
 
  while(fscanf(csv, "%29[^,],%29[^,],%29[^,],%58[^\n]\n", data_buf, client_buf, product_buf, name_buf) == 4){
-  if(contador == 0){
+  if(contador == 0)
+  {
+              
    contador++;
    continue;
+   
   }
   
   if(ptr->index_client.count(client_buf) == 0){
@@ -54,6 +57,5 @@ Dados* ListaCompras(Dados *ptr){
  }
  fclose(csv);
 
- return ptr;
 
 }

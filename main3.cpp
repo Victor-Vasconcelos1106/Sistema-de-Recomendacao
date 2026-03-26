@@ -1,28 +1,72 @@
-#include "Recomendacao.h"
 #include <iostream>
-#include "ListaCompras.h"
+#include <ios>
+#include <limits>
 #include <string>
+#include <vector>
+#include <map>
+
+
+#include "Recomendacao.h"
+#include "ListaCompras.h"
 #include "Similaridade.h"
 
-int main(){
+int main()
+{
+                         
     Dados dados;
     ListaCompras(&dados);
 
     Matriz_s matriz;
     Similaridade(&matriz);
-
-
-
-    vector<string> clientes;
+    
+    int i;
+    int j;
+    
     string codigo;
-    for (int i = 0; i < 3; i++) {  
-        cout << "CÃ³digo do cliente: ";
-        cin >> codigo;
-        clientes.push_back(codigo);
+    
+//Teste da matriz similaridade(acho que está errada(linhas muito homogeneas) )    
+    for(i = 0; i < dados.index_client.size(); i++)
+    {
+            
+            for(j = 0; j < dados.index_client.size(); j++)
+            {
+                    
+                    cout << matriz.matriz[ i * dados.index_client.size() + j ]<< ",";
+                    
+            }
+         
+            cout << endl;
+            
+    
     }
+    
+    for ( i = 0; i < 3; i++ ) 
+    {
+                 
+        cout << "CÃ³digo do cliente: " << endl;
+        cin >> codigo;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        int client_internal_index = dados.index_client[codigo];
+        
+        vector<string> recomendados;
+        Recomendacao( client_internal_index , &dados, &matriz, 3, &recomendados);
+        
+        for( j = 0; j < recomendados.size(); j++)
+        {
+                    
+             cout << "recomendação numero " << (j + 1) << " para o cliente "  << client_internal_index << " :" << endl;
+             cout << recomendados[j] << endl;  
+        
+        }
+        
+        recomendados.clear();
+         
+    }
+    
+}
 
 
-    vector<int> clientes_idx;
+   /* vector<int> clientes_idx;
 
     for( string code : clientes)
     {
@@ -41,11 +85,11 @@ int main(){
         for(string produto : recomendacoes)
         {
 
-            cout << "cliente " << H << ": "<< produto << endl;
-
+            cout < < "cliente " < < H < < ": "< < produto < < endl;
         }
 
     }
 
     return 0;
 }
+*/
