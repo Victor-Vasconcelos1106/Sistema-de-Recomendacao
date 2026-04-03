@@ -69,7 +69,7 @@ for(i = 0; i < dados.index_client.size(); i++)
        for (j = 0 ; j < dados.index_client.size();j++)
 	   {
 	   // atualizei o acesso, estava errado antes
-	   		*( Matriz_similaridade + ( i * dados.index_client.size() + j ) ) = 1 - (*( Matriz_similaridade + ( i * dados.index_client.size() + j ) )) / ( dados.compras_cliente[i].size() );
+	   		*( Matriz_similaridade + ( i * dados.index_client.size() + j ) ) = 1 - ( *( Matriz_similaridade + ( i * dados.index_client.size() + j ) ) ) / ( dados.compras_cliente[i].size() );
 	   
 	   }
 	   

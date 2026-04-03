@@ -1,13 +1,26 @@
-#include <stdio.h>
-#include <map>
-#include <list>
-#include <vector>
-#include <string>
-#include <iostream>
-#include "ListaCompras.h"
-using namespace std;
+#include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
-void ListaCompras(Dados *ptr){
+#include <vector>
+#include <list>
+#include <map>
+#include <string>
+
+namespace py = pybind11;
+
+struct Dados {
+
+    vector<list<int> > compras_cliente; 
+    vector<string> client_codes;        
+    vector<string> product_names;
+    map<string, int> index_client;
+    map<string, int> index_product;       
+           
+};
+
+void ListaCompras(Dados dado){
+
+Dados *ptr = &dado;
 
 FILE *csv;
  csv = fopen("dados_venda_cluster_0.csv","r");
@@ -54,11 +67,29 @@ FILE *csv;
       ptr->compras_cliente.resize(client_id+1);
   }
       
-
   ptr->compras_cliente[client_id].push_back(product_id);
 
  }
+
  fclose(csv);
 
 
 }
+
+PYBIND11_MODULE(Recomendação,R)
+{
+
+    R.doc = "Integração do sistema de recomendação com python";
+
+    py::class_<Dados>(R, "Dados")
+        .def( py::init<vector<list<int>> &>() )
+        .def( py::init<vector<string>> &>() )
+        .def( py::init<vector<string>> &>() )
+        .def( py::init<map<string, int>> &>() )
+        .def( py::init<map<string, int>> &>() )
+        
+
+    R.def("ListaCompras", &ListaCompras); 
+
+}
+
