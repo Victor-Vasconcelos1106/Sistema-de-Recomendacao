@@ -8,20 +8,20 @@ bool compararProdutos(const Produto& a, const Produto& b)
     
 }
 
-void Recomendacao(int cliente_c, Dados* dados, Matriz_s* matriz, int k, vector<string> *nomes)
+void Recomendacao(int cliente_c, Dados dados, float* matriz, int k, vector<string> *nomes)
 {
-    Dados *ptr_dados = dados;
+    Dados *ptr_dados = &dados;
     int numero_clientes = ptr_dados->index_client.size();
     int numero_produtos = ptr_dados->index_product.size();
     cout << "numero clientes : "<< numero_clientes << endl;
     vector<list<int> > compras = ptr_dados->compras_cliente;
 
-    float *ptr_matriz = matriz->matriz;
+    //float *matriz = matriz;
 
     vector<int> Clientes_similares;
     vector<Produto> Ranking;
 
-   for (int i = 0; i < numero_clientes - 1/*ESSE 1 É TAPA BURACO(ERRO 9060SM01)*/ ; i++) 
+   for (int i = 0; i < numero_clientes - 1/*ESSE 1 ï¿½ TAPA BURACO(ERRO 9060SM01)*/ ; i++) 
    {
 
  
@@ -33,10 +33,11 @@ void Recomendacao(int cliente_c, Dados* dados, Matriz_s* matriz, int k, vector<s
             
         } 
         
-        float dist_atual = *(ptr_matriz + (cliente_c * numero_clientes + i));
+        float dist_atual = *(matriz + (cliente_c * numero_clientes + i));
         
         cout << "indice atual: " << i << endl;
-        cout << "\tdistancia atual: " << dist_atual << endl;
+        printf("\tdistancia atual: %.9f", dist_atual);
+        printf("\n");
         
         if ( ( dist_atual < 1.0 ) ) 
         {
@@ -47,17 +48,18 @@ void Recomendacao(int cliente_c, Dados* dados, Matriz_s* matriz, int k, vector<s
     }
     
     cout << "end of bullshit" << endl;
+    cout << "Num Clientes Similares" << Clientes_similares.size() << endl;
     
     if(Clientes_similares.empty()){cout << "fudeu" << endl;}
     
-    // SÓ SEUS SABE O PORQUÊ, MAS O ALGORITMO PEIDA NA FAROFA PERANTE O
-    // CÓDIGO 9060SM01, O CODIGO ACIMA EXECUTA DE FORMA SUPOSTAMENTE NORMAL
+    // Sï¿½ SEUS SABE O PORQUï¿½, MAS O ALGORITMO PEIDA NA FAROFA PERANTE O
+    // Cï¿½DIGO 9060SM01, O CODIGO ACIMA EXECUTA DE FORMA SUPOSTAMENTE NORMAL
     // ENTRETANTO OCORRE ALGUM ERRO NA LINHAS A SEGUIR
     // DESCOBRI(ACHO)
-    // ANTES NUMERO_CLIENTES IA ATÉ 855, E ISSO POSSIVELMENTE GERAVA
+    // ANTES NUMERO_CLIENTES IA ATï¿½ 855, E ISSO POSSIVELMENTE GERAVA
     // SEGMENTATION FAULT OU ALGUM ERRO DE MEMORIA DO TIPO
-    // AO MENOS É A MINHA TEORIA
-    // SÓ EXISTE UMA CERTEZA, POR ALGUM MOTIVO O INDEX 855 GERAVA PROBLEMAS
+    // AO MENOS ï¿½ A MINHA TEORIA
+    // Sï¿½ EXISTE UMA CERTEZA, POR ALGUM MOTIVO O INDEX 855 GERAVA PROBLEMAS
     // ERRO 9060SM01 ABAIXO:
             
     for (int p = 0; p < numero_produtos; p++) 
@@ -76,10 +78,10 @@ void Recomendacao(int cliente_c, Dados* dados, Matriz_s* matriz, int k, vector<s
         
         //AGR SIM EU ACHEI O ERRO, O PROBLEMA OCORRE AQUI
         //QUANDO S = 855 O PROGRAMA DESISTE DE RODAR
-        //MINHA TEORIA PERMANECE SENDO ERRO DE MEMORIA MEMÓRIA
-        // NÃO VOU MUDAR O NOME DO ERRO APENAS PORQUE 9060SM01 > 855 
+        //MINHA TEORIA PERMANECE SENDO ERRO DE MEMORIA MEMï¿½RIA
+        // Nï¿½O VOU MUDAR O NOME DO ERRO APENAS PORQUE 9060SM01 > 855 
         
-        float similaridade_cs = matriz->matriz[cliente_c * numero_clientes + s];
+        float similaridade_cs = matriz[cliente_c * numero_clientes + s];
 
         for (int produto : ptr_dados->compras_cliente[s]) {
 

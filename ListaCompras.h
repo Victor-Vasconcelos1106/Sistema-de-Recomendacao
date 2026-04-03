@@ -8,6 +8,7 @@
 using namespace std;
 
 struct Dados {
+    
     vector<list<int> > compras_cliente; 
     vector<string> client_codes;        
     vector<string> product_names;

@@ -7,13 +7,14 @@
 #include "ListaCompras.h"
 #include "Similaridade.h"
 
+
 struct Produto
 {
     int id_produto;
     float valor_ranking;
 };
 
-void Recomendacao(int cliente_c, Dados* dados, Matriz_s* matriz, int k, vector<string>* nomes);
+void Recomendacao(int cliente_c, Dados dados, float* matriz, int k, vector<string>* nomes);
 
 
 #endif

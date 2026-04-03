@@ -12,26 +12,32 @@
 
 int main()
 {
-                         
+
+    printf("entrando LC");    
+
     Dados dados;
     ListaCompras(&dados);
 
-    Matriz_s matriz;
-    Similaridade(&matriz);
+    printf("Entrando MS");
+
+    float* matriz = Similaridade();
     
+    
+    printf("Saindo MS");
+
     int i;
     int j;
     
     string codigo;
     
-//Teste da matriz similaridade(acho que está errada(linhas muito homogeneas) )    
-    for(i = 0; i < dados.index_client.size(); i++)
+//Teste da matriz similaridade    
+    /*for(i = 0; i < dados.index_client.size(); i++)
     {
             
             for(j = 0; j < dados.index_client.size(); j++)
             {
                     
-                    cout << matriz.matriz[ i * dados.index_client.size() + j ]<< ",";
+                    cout << matriz[ i * dados.index_client.size() + j ]<< ",";
                     
             }
          
@@ -39,8 +45,8 @@ int main()
             
     
     }
-    
-    for ( i = 0; i < 3; i++ ) 
+    */
+    for ( i = 0; i < 1; i++ ) 
     {
                  
         cout << "CÃ³digo do cliente: " << endl;
@@ -49,12 +55,12 @@ int main()
         int client_internal_index = dados.index_client[codigo];
         
         vector<string> recomendados;
-        Recomendacao( client_internal_index , &dados, &matriz, 3, &recomendados);
+        Recomendacao( client_internal_index , dados, matriz, 3, &recomendados);
         
         for( j = 0; j < recomendados.size(); j++)
         {
                     
-             cout << "recomendação numero " << (j + 1) << " para o cliente "  << client_internal_index << " :" << endl;
+             cout << "recomendaï¿½ï¿½o numero " << (j + 1) << " para o cliente "  << client_internal_index << " :" << endl;
              cout << recomendados[j] << endl;  
         
         }

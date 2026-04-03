@@ -10,12 +10,18 @@ namespace py = pybind11;
 
 struct Dados {
 
-    vector<list<int> > compras_cliente; 
-    vector<string> client_codes;        
-    vector<string> product_names;
-    map<string, int> index_client;
-    map<string, int> index_product;       
+    std::vector<list<int> > compras_cliente; 
+    std::vector< std::string > client_codes;        
+    std::vector< std::string > product_names;
+    std::map< std::string, int > index_client;
+    std::map< std::string, int > index_product;       
            
+};
+
+struct Produto
+{
+    int id_produto;
+    float valor_ranking;
 };
 
 void ListaCompras(Dados dado){
@@ -76,18 +82,12 @@ FILE *csv;
 
 }
 
-PYBIND11_MODULE(Recomendação,R)
+
+
+PYBIND11_MODULE(Recomendacao,R)
 {
 
-    R.doc = "Integração do sistema de recomendação com python";
-
-    py::class_<Dados>(R, "Dados")
-        .def( py::init<vector<list<int>> &>() )
-        .def( py::init<vector<string>> &>() )
-        .def( py::init<vector<string>> &>() )
-        .def( py::init<map<string, int>> &>() )
-        .def( py::init<map<string, int>> &>() )
-        
+    R.doc = "Integração do sistema de recomendação com python"; 
 
     R.def("ListaCompras", &ListaCompras); 
 
