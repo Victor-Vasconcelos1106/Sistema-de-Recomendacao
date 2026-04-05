@@ -1,6 +1,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include <stdio.h>
 #include <vector>
 #include <list>
 #include <map>
@@ -8,9 +9,10 @@
 
 namespace py = pybind11;
 
-struct Dados {
+struct Dados 
+{
 
-    std::vector<list<int> > compras_cliente; 
+    std::vector<std::list<int> > compras_cliente; 
     std::vector< std::string > client_codes;        
     std::vector< std::string > product_names;
     std::map< std::string, int > index_client;
@@ -18,15 +20,24 @@ struct Dados {
            
 };
 
-struct Produto
+
+/*
+
+Dados input_to_Dados( std::vector<std::list<int> > compras_cliente, std::vector< std::string > client_codes, 
+std::vector< std::string > product_names,  std::map< std::string, int > index_client,
+std::map< std::string, int > index_product)
 {
-    int id_produto;
-    float valor_ranking;
-};
+    
+        Dados dado = {compras_cliente, client_codes, product_names, index_client, index_product};
+        return dado;
 
-void ListaCompras(Dados dado){
+}
 
-Dados *ptr = &dado;
+*/
+
+void ListaCompras(Dados* ptr){
+
+//Dados *ptr = dado;
 
 FILE *csv;
  csv = fopen("dados_venda_cluster_0.csv","r");
@@ -69,7 +80,7 @@ FILE *csv;
   int client_id = ptr->index_client[client_buf];
   int product_id = ptr->index_product[product_buf];
 
-  if(client_id >= ptr->compras_cliente.size()){
+  if(client_id >= (int)ptr->compras_cliente.size()){
       ptr->compras_cliente.resize(client_id+1);
   }
       
@@ -87,9 +98,19 @@ FILE *csv;
 PYBIND11_MODULE(Recomendacao,R)
 {
 
-    R.doc = "Integração do sistema de recomendação com python"; 
+    R.doc() = "Integração do sistema de recomendação com python"; 
 
-    R.def("ListaCompras", &ListaCompras); 
+    py::class_<Dados>(R, "Dados")
+        .def(py::init<>())
+        .def_readwrite("compras_cliente", &Dados::compras_cliente)
+        .def_readwrite("client_codes", &Dados::client_codes)
+        .def_readwrite("product_names", &Dados::product_names)
+        .def_readwrite("index_client", &Dados::index_client)
+        .def_readwrite("index_product", &Dados::index_product);
+
+    R.def("ListaCompras", &ListaCompras, "Lê o csv");
+
+    //R.def("input_to_Dados", &input_to_Dados, "conversão python pra c++");
 
 }
 

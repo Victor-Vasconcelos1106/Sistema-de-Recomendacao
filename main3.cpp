@@ -55,7 +55,7 @@ int main()
         int client_internal_index = dados.index_client[codigo];
         
         vector<string> recomendados;
-        Recomendacao( client_internal_index , dados, matriz, 3, &recomendados);
+        Recomendacao( client_internal_index , &dados, matriz, 3, &recomendados);
         
         for( j = 0; j < recomendados.size(); j++)
         {

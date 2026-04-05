@@ -14,7 +14,7 @@ struct Produto
     float valor_ranking;
 };
 
-void Recomendacao(int cliente_c, Dados dados, float* matriz, int k, vector<string>* nomes);
+void Recomendacao(int cliente_c, Dados* dados, float* matriz, int k, vector<string>* nomes);
 
 
 #endif
