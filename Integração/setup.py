@@ -3,14 +3,14 @@ from pybind11.setup_helpers import Pybind11Extension, build_ext
 
 ext_modules = [
     Pybind11Extension(
-        "Recomendação",
+        "Recomendacao",
         sources=["Cupido.cpp"],
         cxx_std=17,
     ),
 ]
 
 setup(
-    name = "Recomendaçao",
+    name = "Recomendacao",
     version ="0.0",
     description = "Preciso de uma xícara de café",
     ext_modules = ext_modules,

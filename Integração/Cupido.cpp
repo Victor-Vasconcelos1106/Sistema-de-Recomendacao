@@ -2,6 +2,8 @@
 #include <pybind11/stl.h>
 
 #include <stdio.h>
+#include <iostream>
+#include <tuple>
 #include <vector>
 #include <list>
 #include <map>
@@ -9,90 +11,94 @@
 
 namespace py = pybind11;
 
-struct Dados 
-{
-
+struct Dados {
+    
     std::vector<std::list<int> > compras_cliente; 
-    std::vector< std::string > client_codes;        
-    std::vector< std::string > product_names;
-    std::map< std::string, int > index_client;
-    std::map< std::string, int > index_product;       
+    std::vector<std::string> client_codes;        
+    std::vector<std::string> product_names;
+    std::map<std::string, int> index_client;
+    std::map<std::string, int> index_product;       
            
 };
 
-
-/*
-
-Dados input_to_Dados( std::vector<std::list<int> > compras_cliente, std::vector< std::string > client_codes, 
-std::vector< std::string > product_names,  std::map< std::string, int > index_client,
-std::map< std::string, int > index_product)
+std::tuple< std::vector<std::list<int>>, std::vector<std::string>, std::vector<std::string>,
+std::map<std::string, int>,std::map<std::string, int> > ListaCompras()
 {
+
+    std::vector<std::list<int>> compras_cliente;
+    std::vector<std::string> client_codes;
+    std::vector<std::string> product_names;
+    std::map<std::string, int> index_client;
+    std::map<std::string, int> index_product;
+
+    /*enum index_tuple{
+
+        compras_cliente,
+        client_codes,
+        product_names,
+        index_client,
+        index_product
+
+                    };
+    */  
+    FILE *csv;
+    csv = fopen("dados_venda_cluster_0.csv","r");
+    if(csv == NULL)
+    {
+
+    perror("Erro ao abrir o csv");
     
-        Dados dado = {compras_cliente, client_codes, product_names, index_client, index_product};
-        return dado;
+    }
+
+    int contador = 0;
+    char client_buf[30];
+    char product_buf[30];
+    char data_buf[59];
+    char name_buf[59];
+
+    int next_client = 0;
+    int next_product = 0;
+
+    while(fscanf(csv, "%29[^,],%29[^,],%29[^,],%58[^\n]\n", data_buf, client_buf, product_buf, name_buf) == 4){
+    if(contador == 0)
+    {
+                
+    contador++;
+    continue;
+    
+    }
+
+    if(index_client.count(client_buf) == 0){
+        index_client[client_buf] = next_client++;
+        client_codes.push_back(client_buf);
+    }
+        
+    if(index_product.count(product_buf) == 0){
+        index_product[product_buf] = next_product++;
+        product_names.push_back(name_buf);
+    }
+        
+
+    int client_id = index_client[client_buf];
+    int product_id = index_product[product_buf];
+
+    if(client_id >= compras_cliente.size())
+    {
+
+        compras_cliente.resize(client_id + 1);
+
+    }
+        
+
+    compras_cliente[client_id].push_back(product_id);
+
+    }
+
+    fclose(csv);
+
+    return {compras_cliente, client_codes, product_names, index_client, index_product};
 
 }
-
-*/
-
-void ListaCompras(Dados* ptr){
-
-//Dados *ptr = dado;
-
-FILE *csv;
- csv = fopen("dados_venda_cluster_0.csv","r");
- if(csv == NULL)
- {
-
-  perror("Erro ao abrir o csv");
-  
- }
-
- int contador = 0;
- char client_buf[30];
- char product_buf[30];
- char data_buf[59];
- char name_buf[59];
-
- int next_client = 0;
- int next_product = 0;
-
- while(fscanf(csv, "%29[^,],%29[^,],%29[^,],%58[^\n]\n", data_buf, client_buf, product_buf, name_buf) == 4){
-  if(contador == 0)
-  {
-              
-   contador++;
-   continue;
-   
-  }
-  
-  if(ptr->index_client.count(client_buf) == 0){
-      ptr->index_client[client_buf] = next_client++;
-      ptr->client_codes.push_back(client_buf);
-  }
-      
-  if(ptr->index_product.count(product_buf) == 0){
-      ptr->index_product[product_buf] = next_product++;
-      ptr->product_names.push_back(name_buf);
-  }
-      
-
-  int client_id = ptr->index_client[client_buf];
-  int product_id = ptr->index_product[product_buf];
-
-  if(client_id >= (int)ptr->compras_cliente.size()){
-      ptr->compras_cliente.resize(client_id+1);
-  }
-      
-  ptr->compras_cliente[client_id].push_back(product_id);
-
- }
-
- fclose(csv);
-
-
-}
-
 
 
 PYBIND11_MODULE(Recomendacao,R)
@@ -100,17 +106,9 @@ PYBIND11_MODULE(Recomendacao,R)
 
     R.doc() = "Integração do sistema de recomendação com python"; 
 
-    py::class_<Dados>(R, "Dados")
-        .def(py::init<>())
-        .def_readwrite("compras_cliente", &Dados::compras_cliente)
-        .def_readwrite("client_codes", &Dados::client_codes)
-        .def_readwrite("product_names", &Dados::product_names)
-        .def_readwrite("index_client", &Dados::index_client)
-        .def_readwrite("index_product", &Dados::index_product);
+    R.def("ListaCompras", &ListaCompras);
 
-    R.def("ListaCompras", &ListaCompras, "Lê o csv");
 
-    //R.def("input_to_Dados", &input_to_Dados, "conversão python pra c++");
 
 }
 
