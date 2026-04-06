@@ -180,8 +180,7 @@ std::vector<float> Similaridade_Otimizada(
     std::tuple<std::vector<std::list<int>>, std::vector<std::string>, std::vector<std::string>,
     std::map<std::string, int>, std::map<std::string, int>> dados
 
-                                )
-{
+){
 
 
     enum index_tuple
@@ -230,29 +229,35 @@ std::vector<float> Similaridade_Otimizada(
     }
     */
 
+
     int soma_do_produto = 0;
 
-    for (i = 0; i <  (std::get<index_client>(dados)).size(); i++)
+    for (i = 0; i <  (std::get<index_client>(dados)).size() ; i++)
     {
-
-        for (j = 0; j <  (std::get<index_client>(dados)).size(); j++)
+        for (k = 0; k <  (std::get<index_client>(dados)).size(); k++)
         {
-            
-            if(i > j){continue;}
 
-            for (k = 0; k < (std::get<index_product>(dados)).size(); k++)
+            for (j = 0; j < (std::get<index_product>(dados)).size(); j++)
             {
-                
-                soma_do_produto += *(Matriz_compras + (i * (std::get<index_product>(dados)).size() + k)) * *(Matriz_compras + (j *  (std::get<index_client>(dados)).size() + k));
 
+                soma_do_produto += *(Matriz_compras + (i * (std::get<index_product>(dados)).size() + j)) * *(Matriz_compras + (k *  (std::get<index_product>(dados)).size() + j));
             }
+            
+            
 
-            *(Matriz_intersecao + (i *  (std::get<index_client>(dados)).size() + j)) = soma_do_produto;
-            *(Matriz_intersecao + (j *  (std::get<index_client>(dados)).size() + i)) = soma_do_produto;
+            *(Matriz_intersecao + (i *  (std::get<index_client>(dados)).size() + k)) = soma_do_produto;
+            *(Matriz_intersecao + (k *  (std::get<index_client>(dados)).size() + i)) = soma_do_produto;
             soma_do_produto = 0;
-            //*( Matriz_similaridade + (i *  (std::get<index_client>(dados)).size() + k) ) = soma_do_produto;
+
+            
+
         }
+
+       
+
     }
+
+    
 
     float jacard;
     std::vector<float> Matriz_similaridade_L;
@@ -266,7 +271,8 @@ std::vector<float> Similaridade_Otimizada(
             jacard = (*(Matriz_intersecao + i *  (std::get<index_client>(dados)).size() + j));
             jacard /= (std::get<compras_cliente>(dados))[i].size();
             jacard = 1 - jacard;
-
+            
+            
             *(Matriz_similaridade + (i *  (std::get<index_client>(dados)).size() + j)) = jacard;
             Matriz_similaridade_L.push_back(jacard);
         }
