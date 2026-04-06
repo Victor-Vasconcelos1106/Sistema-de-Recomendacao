@@ -42,8 +42,8 @@ int main() {
     ListaCompras(&dados);
     int numero_clientes = dados.index_client.size();
 
-    Matriz_s matriz;
-    Similaridade(&matriz);
+    float* matriz;
+    matriz = Similaridade();
 
     int cliente1, cliente2;
     cout << "Total dos indices dos clientes: " << numero_clientes - 1 << endl;
@@ -53,10 +53,10 @@ int main() {
     cin >> cliente2;
     cout << "\nRESULTADOS:\n" << endl;
 
-    ClienteMaisSimilar(cliente1, numero_clientes, matriz.matriz, dados.client_codes);
-    ClienteMaisSimilar(cliente2, numero_clientes, matriz.matriz, dados.client_codes);
+    ClienteMaisSimilar(cliente1, numero_clientes, matriz, dados.client_codes);
+    ClienteMaisSimilar(cliente2, numero_clientes, matriz, dados.client_codes);
 
-    free(matriz.matriz);
+    free(matriz);
 
     return 0;
 }

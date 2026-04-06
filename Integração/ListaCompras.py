@@ -38,13 +38,7 @@ def ListaCompras():
 
             compra_clientes[cliente_id].append(produto_id)
    
-    return {
-        "cod_cliente": cod_cliente,
-        "nome_produto": nome_produto,
-        "compra_clientes": compra_clientes,
-        "index_produto": index_produto,
-        "index_cliente": index_cliente
-    }
+    return (compra_clientes, cod_cliente, nome_produto, index_cliente, index_produto)
 
 
 

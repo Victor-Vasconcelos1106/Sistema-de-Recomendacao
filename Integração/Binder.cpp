@@ -175,6 +175,106 @@ std::vector<float> Similaridade(
 
 }
 
+std::vector<float> Similaridade(
+
+    std::tuple<std::vector<std::list<int>>, std::vector<std::string>, std::vector<std::string>,
+    std::map<std::string, int>, std::map<std::string, int>> dados
+
+                                )
+{
+
+
+    enum index_tuple
+    {
+
+        compras_cliente,
+        client_codes,
+        product_names,
+        index_client,
+        index_product
+
+    };
+
+    int *Matriz_compras = (int *)malloc(sizeof(int) * ( (std::get<index_client>(dados)).size() ) * ((std::get<index_product>(dados)).size()));
+    int *Matriz_compras_transposta = (int *)malloc(sizeof(int) * ((std::get<index_product>(dados)).size()) * ( (std::get<index_client>(dados)).size()));
+    int *Matriz_intersecao = (int *)malloc(sizeof(int) * ( (std::get<index_client>(dados)).size()) * ( (std::get<index_client>(dados)).size()));
+    float *Matriz_similaridade = (float *)malloc(sizeof(float) *  (std::get<index_client>(dados)).size() *  (std::get<index_client>(dados)).size());
+
+    int i, j, k;
+    for (i = 0; i <  (std::get<index_client>(dados)).size(); i++)
+    {
+
+        for (j = 0; j < (std::get<index_product>(dados)).size(); j++)
+        {
+
+            *(Matriz_compras + (i * (std::get<index_product>(dados)).size() + j)) = 0;
+        }
+
+        for (int product_id : (std::get<compras_cliente>(dados))[i])
+        {
+
+            *(Matriz_compras + (i * (std::get<index_product>(dados)).size() + product_id)) = 1;
+        }
+    }
+
+    /*
+    for (i = 0; i <  (std::get<index_client>(dados)).size(); i++)
+    {
+
+        for (j = 0; j < (std::get<index_product>(dados)).size(); j++)
+        {
+
+            *(Matriz_compras_transposta + j *  (std::get<index_client>(dados)).size() + i) = *(Matriz_compras + (i * (std::get<index_product>(dados)).size() + j));
+            ;
+        }
+    }
+    */
+   
+    int soma_do_produto = 0;
+
+    for (i = 0; i <  (std::get<index_client>(dados)).size(); i++)
+    {
+        for (k = 0; k <  (std::get<index_client>(dados)).size(); k++)
+        {
+
+            for (j = 0; j < (std::get<index_product>(dados)).size(); j++)
+            {
+
+                soma_do_produto += *(Matriz_compras + (i * (std::get<index_product>(dados)).size() + j)) * *(Matriz_compras_transposta + (j *  (std::get<index_client>(dados)).size() + k));
+            }
+
+            *(Matriz_intersecao + (i *  (std::get<index_client>(dados)).size() + k)) = soma_do_produto;
+            soma_do_produto = 0;
+            //*( Matriz_similaridade + (i *  (std::get<index_client>(dados)).size() + k) ) = soma_do_produto;
+        }
+    }
+
+    float jacard;
+    std::vector<float> Matriz_similaridade_L;
+
+    for (i = 0; i <  (std::get<index_client>(dados)).size(); i++)
+    {
+
+        for (j = 0; j <  (std::get<index_client>(dados)).size(); j++)
+        {
+
+            jacard = (*(Matriz_intersecao + i *  (std::get<index_client>(dados)).size() + j));
+            jacard /= (std::get<compras_cliente>(dados))[i].size();
+            jacard = 1 - jacard;
+
+            *(Matriz_similaridade + (i *  (std::get<index_client>(dados)).size() + j)) = jacard;
+            Matriz_similaridade_L.push_back(jacard);
+        }
+    }
+
+    free(Matriz_compras);
+    free(Matriz_compras_transposta);
+    free(Matriz_intersecao);
+
+    return Matriz_similaridade_L;
+
+}
+
 
 
 bool compararProdutos( std::tuple<int, float> a, std::tuple<int, float> b ) 

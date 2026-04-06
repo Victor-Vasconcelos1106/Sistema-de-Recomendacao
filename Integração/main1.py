@@ -11,8 +11,8 @@ def main():
     for cliente in clientes:
         idx = -1
 
-        for i in range(len(dados["cod_cliente"])):
-            if dados["cod_cliente"][i] == cliente:
+        for i in range(len(dados[1])):
+            if dados[1][i] == cliente:
                 idx = i
                 break
         if idx == -1:
@@ -20,8 +20,8 @@ def main():
             continue
         print(f"Cliente {cliente} comprou: ",end="")
 
-        for id in dados["compra_clientes"][idx][:3]:
-            print(dados["nome_produto"][id],end=" / ")
+        for id in dados[0][idx][:3]:
+            print(dados[2][id],end=" / ")
         print()    
 
 if __name__ == "__main__":
