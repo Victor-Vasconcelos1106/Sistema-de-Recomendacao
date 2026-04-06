@@ -4,7 +4,7 @@ from pybind11.setup_helpers import Pybind11Extension, build_ext
 ext_modules = [
     Pybind11Extension(
         "Recomendacao",
-        sources=["Cupido.cpp"],
+        sources=["Binder.cpp"],
         cxx_std=17,
     ),
 ]
