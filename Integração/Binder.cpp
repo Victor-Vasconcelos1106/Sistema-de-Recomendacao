@@ -175,27 +175,46 @@ std::vector<float> Similaridade(
 
 }
 
-/*
 
-bool compararProdutos( std::tuple< int, float > a ,std::tuple< int, float > b ) 
+
+bool compararProdutos( std::tuple<int, float> a, std::tuple<int, float> b ) 
 {
-                            
-    return std::get<1>(a) < std::get<1>(b); 
+    bool comparacao = std::get<1>(a) < std::get<1>(b);                    
+    return comparacao; 
     
 }
 
-void Recomendacao(int cliente_c, Dados* ptr_dados, float* matriz, int k, vector<string> *nomes)
+std::vector<std::string> recomendacao(
+
+    int cliente_c, 
+    std::tuple<std::vector<std::list<int>>, std::vector<std::string>, std::vector<std::string>,
+    std::map<std::string, int>, std::map<std::string, int>> dados,
+    std::vector<float> Matriz_similaridade_L,
+    int k
+
+                 )
 {
-    //Dados *ptr_dados = &dados;
-    int numero_clientes = ptr_dados->index_client.size();
-    int numero_produtos = ptr_dados->index_product.size();
-    cout << "numero clientes : "<< numero_clientes << endl;
-    vector<list<int> > compras = ptr_dados->compras_cliente;
+    
+    enum index_tuple
+    {
+
+        compras_cliente,
+        client_codes,
+        product_names,
+        index_client,
+        index_product
+
+    };
+
+    int numero_clientes = std::get<index_client>(dados).size();
+    int numero_produtos = std::get<index_product>(dados).size();
+    //cout << "numero clientes : "<< numero_clientes << endl;
+    std::vector<std::list<int> > compras = std::get<compras_cliente>(dados);
 
     //float *matriz = matriz;
 
-    vector<int> Clientes_similares;
-    vector<Produto> Ranking;
+    std::vector<int> Clientes_similares;
+    std::vector<std::tuple<int, float>> Ranking;
 
    for (int i = 0; i < numero_clientes - 1 ; i++) 
    {
@@ -204,14 +223,14 @@ void Recomendacao(int cliente_c, Dados* ptr_dados, float* matriz, int k, vector<
         if (i == cliente_c)
         {
                  
-            cout << "indice pulado : " << i << endl;  
+            //cout << "indice pulado : " << i << endl;  
             continue;
             
         } 
         
-        float dist_atual = *(matriz + (cliente_c * numero_clientes + i));
+        float dist_atual = Matriz_similaridade_L[cliente_c * numero_clientes + i];
         
-        cout << "indice atual: " << i << endl;
+        //cout << "indice atual: " << i << endl;
         printf("\tdistancia atual: %.9f", dist_atual);
         printf("\n");
         
@@ -223,10 +242,10 @@ void Recomendacao(int cliente_c, Dados* ptr_dados, float* matriz, int k, vector<
         } 
     }
     
-    cout << "end of bullshit" << endl;
-    cout << "Num Clientes Similares" << Clientes_similares.size() << endl;
+    //cout << "end of bullshit" << endl;
+    //cout << "Num Clientes Similares" << Clientes_similares.size() << endl;
     
-    if(Clientes_similares.empty()){cout << "fudeu" << endl;}
+    //if(Clientes_similares.empty()){//cout << "fudeu" << endl;}
     
     // S� SEUS SABE O PORQU�, MAS O ALGORITMO PEIDA NA FAROFA PERANTE O
     // C�DIGO 9060SM01, O CODIGO ACIMA EXECUTA DE FORMA SUPOSTAMENTE NORMAL
@@ -241,7 +260,7 @@ void Recomendacao(int cliente_c, Dados* ptr_dados, float* matriz, int k, vector<
     for (int p = 0; p < numero_produtos; p++) 
     {
                  
-        Produto i = {p,1.0};
+        std::tuple<int, float> i = {p, 1.0};
         Ranking.push_back({i});
         
     }
@@ -249,7 +268,7 @@ void Recomendacao(int cliente_c, Dados* ptr_dados, float* matriz, int k, vector<
     for (int s : Clientes_similares) 
     {
         
-        cout << "s = " << s << endl;
+        //cout << "s = " << s << endl;
       
         
         //AGR SIM EU ACHEI O ERRO, O PROBLEMA OCORRE AQUI
@@ -257,39 +276,41 @@ void Recomendacao(int cliente_c, Dados* ptr_dados, float* matriz, int k, vector<
         //MINHA TEORIA PERMANECE SENDO ERRO DE MEMORIA MEM�RIA
         // N�O VOU MUDAR O NOME DO ERRO APENAS PORQUE 9060SM01 > 855 
         
-        float similaridade_cs = matriz[cliente_c * numero_clientes + s];
+        float similaridade_cs = Matriz_similaridade_L[cliente_c * numero_clientes + s];
 
-        for (int produto : ptr_dados->compras_cliente[s]) {
+        for (int produto : std::get<compras_cliente>(dados)[s]) {
 
-            auto it = find(ptr_dados->compras_cliente[cliente_c].begin() , ptr_dados->compras_cliente[cliente_c].end(), produto );
+            auto it = find(std::get<compras_cliente>(dados)[cliente_c].begin() , std::get<compras_cliente>(dados)[cliente_c].end(), produto );
 
-            if(it == ptr_dados->compras_cliente[cliente_c].end())
+            if(it == std::get<compras_cliente>(dados)[cliente_c].end())
             {
 
-                Ranking[produto].valor_ranking *= similaridade_cs;
+                std::get<1>(Ranking[produto]) *= similaridade_cs;
 
             }
 
         }
     }
     
-    cout << "fim rankeamento" << endl;
+    //cout << "fim rankeamento" << endl;
 
     sort(Ranking.begin(), Ranking.end(), compararProdutos);
 
-    vector<string> *ids = nomes;
+    std::vector<std::string> recomendacoes;
 
     for(int i = 0; ( (i < k) && (k < Ranking.size() ) ); i++)
     {
                 
-        (*ids).push_back(ptr_dados->product_names[Ranking[i].id_produto]);
+        recomendacoes.push_back( (std::get<product_names>(dados))[ std::get<0>(Ranking[i]) ]);
         
     }
+
+    return recomendacoes;
 
     
 }
 
-*/
+
 PYBIND11_MODULE(Recomendacao, R)
 {
 
@@ -298,5 +319,7 @@ PYBIND11_MODULE(Recomendacao, R)
     R.def("ListaCompras", &ListaCompras);
 
     R.def("Similaridade", &Similaridade);
+
+    R.def("Recomendar", &recomendacao);
 
 }

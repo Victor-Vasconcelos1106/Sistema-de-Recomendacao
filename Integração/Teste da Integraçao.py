@@ -1,6 +1,8 @@
 import Recomendacao as R
 
-b = R.Similaridade(R.ListaCompras())
+a = R.ListaCompras()
+b = R.Similaridade(a)
+c = R.Recomendar(a[3]['9O6OSM01'],a,b,5)
 
-print(b)
+print(c)
 
