@@ -175,7 +175,7 @@ std::vector<float> Similaridade(
 
 }
 
-std::vector<float> Similaridade(
+std::vector<float> Similaridade_Otimizada(
 
     std::tuple<std::vector<std::list<int>>, std::vector<std::string>, std::vector<std::string>,
     std::map<std::string, int>, std::map<std::string, int>> dados
@@ -229,21 +229,26 @@ std::vector<float> Similaridade(
         }
     }
     */
-   
+
     int soma_do_produto = 0;
 
     for (i = 0; i <  (std::get<index_client>(dados)).size(); i++)
     {
-        for (k = 0; k <  (std::get<index_client>(dados)).size(); k++)
+
+        for (j = 0; j <  (std::get<index_client>(dados)).size(); j++)
         {
+            
+            if(i > j){continue;}
 
-            for (j = 0; j < (std::get<index_product>(dados)).size(); j++)
+            for (k = 0; k < (std::get<index_product>(dados)).size(); k++)
             {
+                
+                soma_do_produto += *(Matriz_compras + (i * (std::get<index_product>(dados)).size() + k)) * *(Matriz_compras + (j *  (std::get<index_client>(dados)).size() + k));
 
-                soma_do_produto += *(Matriz_compras + (i * (std::get<index_product>(dados)).size() + j)) * *(Matriz_compras_transposta + (j *  (std::get<index_client>(dados)).size() + k));
             }
 
-            *(Matriz_intersecao + (i *  (std::get<index_client>(dados)).size() + k)) = soma_do_produto;
+            *(Matriz_intersecao + (i *  (std::get<index_client>(dados)).size() + j)) = soma_do_produto;
+            *(Matriz_intersecao + (j *  (std::get<index_client>(dados)).size() + i)) = soma_do_produto;
             soma_do_produto = 0;
             //*( Matriz_similaridade + (i *  (std::get<index_client>(dados)).size() + k) ) = soma_do_produto;
         }
@@ -421,5 +426,7 @@ PYBIND11_MODULE(Recomendacao, R)
     R.def("Similaridade", &Similaridade);
 
     R.def("Recomendar", &recomendacao);
+
+    R.def("Similaridade_Otimizada", &Similaridade_Otimizada);
 
 }
