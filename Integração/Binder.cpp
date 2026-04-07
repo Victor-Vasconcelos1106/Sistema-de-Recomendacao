@@ -80,9 +80,7 @@ ListaCompras()
 std::vector<float> Similaridade(
 
     std::tuple<std::vector<std::list<int>>, std::vector<std::string>, std::vector<std::string>,
-    std::map<std::string, int>, std::map<std::string, int>> dados
-
-                                )
+    std::map<std::string, int>, std::map<std::string, int>> dados)
 {
 
 
@@ -178,9 +176,8 @@ std::vector<float> Similaridade(
 std::vector<float> Similaridade_Otimizada(
 
     std::tuple<std::vector<std::list<int>>, std::vector<std::string>, std::vector<std::string>,
-    std::map<std::string, int>, std::map<std::string, int>> dados
-
-){
+    std::map<std::string, int>, std::map<std::string, int>> dados)
+{
 
 
     enum index_tuple
@@ -352,21 +349,6 @@ std::vector<std::string> recomendacao(
             
         } 
     }
-    
-    //cout << "end of bullshit" << endl;
-    //cout << "Num Clientes Similares" << Clientes_similares.size() << endl;
-    
-    //if(Clientes_similares.empty()){//cout << "fudeu" << endl;}
-    
-    // S� SEUS SABE O PORQU�, MAS O ALGORITMO PEIDA NA FAROFA PERANTE O
-    // C�DIGO 9060SM01, O CODIGO ACIMA EXECUTA DE FORMA SUPOSTAMENTE NORMAL
-    // ENTRETANTO OCORRE ALGUM ERRO NA LINHAS A SEGUIR
-    // DESCOBRI(ACHO)
-    // ANTES NUMERO_CLIENTES IA AT� 855, E ISSO POSSIVELMENTE GERAVA
-    // SEGMENTATION FAULT OU ALGUM ERRO DE MEMORIA DO TIPO
-    // AO MENOS � A MINHA TEORIA
-    // S� EXISTE UMA CERTEZA, POR ALGUM MOTIVO O INDEX 855 GERAVA PROBLEMAS
-    // ERRO 9060SM01 ABAIXO:
             
     for (int p = 0; p < numero_produtos; p++) 
     {
@@ -378,14 +360,6 @@ std::vector<std::string> recomendacao(
 
     for (int s : Clientes_similares) 
     {
-        
-        //cout << "s = " << s << endl;
-      
-        
-        //AGR SIM EU ACHEI O ERRO, O PROBLEMA OCORRE AQUI
-        //QUANDO S = 855 O PROGRAMA DESISTE DE RODAR
-        //MINHA TEORIA PERMANECE SENDO ERRO DE MEMORIA MEM�RIA
-        // N�O VOU MUDAR O NOME DO ERRO APENAS PORQUE 9060SM01 > 855 
         
         float similaridade_cs = Matriz_similaridade_L[cliente_c * numero_clientes + s];
 

@@ -21,7 +21,7 @@ void Recomendacao(int cliente_c, Dados* ptr_dados, float* matriz, int k, vector<
     vector<int> Clientes_similares;
     vector<Produto> Ranking;
 
-   for (int i = 0; i < numero_clientes - 1/*ESSE 1 � TAPA BURACO(ERRO 9060SM01)*/ ; i++) 
+   for (int i = 0; i < numero_clientes - 1 ; i++) 
    {
 
  
@@ -51,16 +51,6 @@ void Recomendacao(int cliente_c, Dados* ptr_dados, float* matriz, int k, vector<
     cout << "Num Clientes Similares" << Clientes_similares.size() << endl;
     
     if(Clientes_similares.empty()){cout << "fudeu" << endl;}
-    
-    // S� SEUS SABE O PORQU�, MAS O ALGORITMO PEIDA NA FAROFA PERANTE O
-    // C�DIGO 9060SM01, O CODIGO ACIMA EXECUTA DE FORMA SUPOSTAMENTE NORMAL
-    // ENTRETANTO OCORRE ALGUM ERRO NA LINHAS A SEGUIR
-    // DESCOBRI(ACHO)
-    // ANTES NUMERO_CLIENTES IA AT� 855, E ISSO POSSIVELMENTE GERAVA
-    // SEGMENTATION FAULT OU ALGUM ERRO DE MEMORIA DO TIPO
-    // AO MENOS � A MINHA TEORIA
-    // S� EXISTE UMA CERTEZA, POR ALGUM MOTIVO O INDEX 855 GERAVA PROBLEMAS
-    // ERRO 9060SM01 ABAIXO:
             
     for (int p = 0; p < numero_produtos; p++) 
     {
@@ -75,11 +65,6 @@ void Recomendacao(int cliente_c, Dados* ptr_dados, float* matriz, int k, vector<
         
         cout << "s = " << s << endl;
       
-        
-        //AGR SIM EU ACHEI O ERRO, O PROBLEMA OCORRE AQUI
-        //QUANDO S = 855 O PROGRAMA DESISTE DE RODAR
-        //MINHA TEORIA PERMANECE SENDO ERRO DE MEMORIA MEM�RIA
-        // N�O VOU MUDAR O NOME DO ERRO APENAS PORQUE 9060SM01 > 855 
         
         float similaridade_cs = matriz[cliente_c * numero_clientes + s];
 

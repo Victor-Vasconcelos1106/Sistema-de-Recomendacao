@@ -16,16 +16,16 @@ int main(){
     ListaCompras(&dados);
     int numero_clientes = dados.index_client.size();
 
-    Matriz_s matriz;
+    
     
     inicio_similaridade_exec = clock();
-    Similaridade(&matriz);
+    Similaridade();
     fim_similaridade_exec = clock();
 
     cout << "Tempo gasto computando a similaridade de forma não otimizada : " << ((double)(fim_similaridade_exec - inicio_similaridade_exec)/CLOCKS_PER_SEC) << endl;
 
     inicio_similaridade_exec = clock();
-    Similaridade_Otimizada(&matriz);
+    Similaridade_Otimizada();
     fim_similaridade_exec = clock();
 
     cout << "Tempo gasto computando a similaridade de forma otimizada : " << ((double)(fim_similaridade_exec - inicio_similaridade_exec)/CLOCKS_PER_SEC) << endl;

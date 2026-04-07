@@ -13,6 +13,6 @@ struct Matriz_s
 
 */
 float* Similaridade();
-//Matriz_s* Similaridade_Otimizada(Matriz_s *ptr);
+float * Similaridade_Otimizada();
 
 #endif
