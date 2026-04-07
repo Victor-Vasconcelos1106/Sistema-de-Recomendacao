@@ -234,7 +234,7 @@ std::vector<float> Similaridade_Otimizada(
 
     for (i = 0; i <  (std::get<index_client>(dados)).size() ; i++)
     {
-        for (k = 0; k <  (std::get<index_client>(dados)).size(); k++)
+        for (k = i; k <  (std::get<index_client>(dados)).size(); k++)
         {
 
             for (j = 0; j < (std::get<index_product>(dados)).size(); j++)
