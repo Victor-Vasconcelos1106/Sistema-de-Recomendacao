@@ -12,7 +12,7 @@ ext_modules = [
 setup(
     name = "Recomendacao",
     version ="0.0",
-    description = "Preciso de uma xícara de café",
+    description = "Sistema de Recomendação",
     ext_modules = ext_modules,
     cmdclass = {"build_ext": build_ext},
     zip_safe = False,

@@ -143,7 +143,6 @@ std::vector<float> Similaridade(
 
             *(Matriz_intersecao + (i *  (std::get<index_client>(dados)).size() + k)) = soma_do_produto;
             soma_do_produto = 0;
-            //*( Matriz_similaridade + (i *  (std::get<index_client>(dados)).size() + k) ) = soma_do_produto;
         }
     }
 
@@ -192,7 +191,6 @@ std::vector<float> Similaridade_Otimizada(
     };
 
     int *Matriz_compras = (int *)malloc(sizeof(int) * ( (std::get<index_client>(dados)).size() ) * ((std::get<index_product>(dados)).size()));
-    int *Matriz_compras_transposta = (int *)malloc(sizeof(int) * ((std::get<index_product>(dados)).size()) * ( (std::get<index_client>(dados)).size()));
     int *Matriz_intersecao = (int *)malloc(sizeof(int) * ( (std::get<index_client>(dados)).size()) * ( (std::get<index_client>(dados)).size()));
     float *Matriz_similaridade = (float *)malloc(sizeof(float) *  (std::get<index_client>(dados)).size() *  (std::get<index_client>(dados)).size());
 
@@ -212,19 +210,6 @@ std::vector<float> Similaridade_Otimizada(
             *(Matriz_compras + (i * (std::get<index_product>(dados)).size() + product_id)) = 1;
         }
     }
-
-    /*
-    for (i = 0; i <  (std::get<index_client>(dados)).size(); i++)
-    {
-
-        for (j = 0; j < (std::get<index_product>(dados)).size(); j++)
-        {
-
-            *(Matriz_compras_transposta + j *  (std::get<index_client>(dados)).size() + i) = *(Matriz_compras + (i * (std::get<index_product>(dados)).size() + j));
-            ;
-        }
-    }
-    */
 
 
     int soma_do_produto = 0;
@@ -316,10 +301,7 @@ std::vector<std::string> recomendacao(
 
     int numero_clientes = std::get<index_client>(dados).size();
     int numero_produtos = std::get<index_product>(dados).size();
-    //cout << "numero clientes : "<< numero_clientes << endl;
     std::vector<std::list<int> > compras = std::get<compras_cliente>(dados);
-
-    //float *matriz = matriz;
 
     std::vector<int> Clientes_similares;
     std::vector<std::tuple<int, float>> Ranking;
@@ -330,17 +312,11 @@ std::vector<std::string> recomendacao(
  
         if (i == cliente_c)
         {
-                 
-            //cout << "indice pulado : " << i << endl;  
             continue;
             
         } 
         
         float dist_atual = Matriz_similaridade_L[cliente_c * numero_clientes + i];
-        
-        //cout << "indice atual: " << i << endl;
-        printf("\tdistancia atual: %.9f", dist_atual);
-        printf("\n");
         
         if ( ( dist_atual < 1.0 ) ) 
         {
@@ -376,8 +352,6 @@ std::vector<std::string> recomendacao(
 
         }
     }
-    
-    //cout << "fim rankeamento" << endl;
 
     sort(Ranking.begin(), Ranking.end(), compararProdutos);
 

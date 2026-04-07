@@ -10,13 +10,10 @@ bool compararProdutos(const Produto& a, const Produto& b)
 
 void Recomendacao(int cliente_c, Dados* ptr_dados, float* matriz, int k, vector<string> *nomes)
 {
-    //Dados *ptr_dados = &dados;
     int numero_clientes = ptr_dados->index_client.size();
     int numero_produtos = ptr_dados->index_product.size();
     cout << "numero clientes : "<< numero_clientes << endl;
     vector<list<int> > compras = ptr_dados->compras_cliente;
-
-    //float *matriz = matriz;
 
     vector<int> Clientes_similares;
     vector<Produto> Ranking;
