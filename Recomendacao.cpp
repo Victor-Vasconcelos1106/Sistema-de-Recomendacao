@@ -47,10 +47,8 @@ void Recomendacao(int cliente_c, Dados* ptr_dados, float* matriz, int k, vector<
         } 
     }
     
-    cout << "end of bullshit" << endl;
-    cout << "Num Clientes Similares" << Clientes_similares.size() << endl;
     
-    if(Clientes_similares.empty()){cout << "fudeu" << endl;}
+    cout << "Num Clientes Similares" << Clientes_similares.size() << endl;
             
     for (int p = 0; p < numero_produtos; p++) 
     {
